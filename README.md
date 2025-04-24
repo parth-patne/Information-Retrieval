@@ -1,70 +1,102 @@
-## Information Retirval System
+# Information Retrieval System
 
-This is a basic information retrieval system implemented in Python. The system allows you to extract a collection of fables, remove stopwords, and perform search queries using different search models and techniques.
+A simple information retrieval system implemented in Python. It allows you to extract a collection of fables, clean the text, and perform search queries using Boolean and Vector space models.
+
+---
 
 ## Features
 
-Collection Extraction: Extract the collection of fables from a specified file.
-Stopword Removal: Remove stopwords from the collection.
-Boolean Model: Perform search queries using the Boolean model.
-Vector Model: Perform search queries using the Vector model.
-Original Documents: Search within the original documents.
-Documents without Stopwords: Search within the documents without stopwords.
-Stemming: Perform stemming on the query and the documents.
-Linear Search: Perform a linear search using the specified search mode.
-Inverted Index Search: Perform an inverted index search using the specified search mode.
-Precision and Recall Calculation: Calculate precision and recall values for the search results.
+- **Collection Extraction**: Extract a collection of fables from a specified text file.
+- **Stopword Removal**: Remove common stopwords from the documents.
+- **Boolean Model**: Search using Boolean logic (AND, OR, NOT).
+- **Vector Model**: Search using vector space model (cosine similarity).
+- **Stemming**: Apply Porter stemming algorithm to queries and documents.
+- **Search Modes**: Choose between linear search and inverted index search.
+- **Search on Cleaned or Original Documents**: Choose to search on original or stopword-removed documents.
+- **Precision and Recall**: Calculate precision and recall for search results.
+
+---
 
 ## Usage
-To use the information retrieval system, follow these steps:
 
-1.Download the code and save it to a directory of your choice.
+1. **Download** the code and navigate to the directory.
 
-2.Prepare the collection of fables by providing the path to the "fables" file. Use the --extract-collection command-line argument followed by the file path. For example:
+2. **Extract the collection** from a file (e.g., Aesop's fables):
 
-python my_ir_system.py --extract-collection aesopa10.txt
+   ```bash
+   python my_ir_system.py --extract-collection aesopa10.txt
+   ```
+
+---
+
+## Searching Options
+
+Use the following command-line arguments to perform different types of searches:
+
+### Boolean Model (with original documents):
+
+```bash
+python my_ir_system.py --model bool --search-mode linear --documents original --query "fox&wolf"
+```
+
+### Boolean Model (inverted index with stopword removal):
+
+```bash
+python my_ir_system.py --model bool --search-mode inverted --documents no_stopwords --query "fox|wolf"
+```
+
+### Boolean with Stemming:
+
+```bash
+python my_ir_system.py --model bool --search-mode linear --documents original --stemming --query "running&fast"
+```
+
+### Vector Model:
+
+```bash
+python my_ir_system.py --model vector --documents no_stopwords --query "clever fox"
+```
+
+---
+
+## Query Syntax (Boolean Search)
+
+- **AND**: `term1&term2` (e.g., `fox&wolf`)
+- **OR**: `term1|term2` (e.g., `fox|wolf`)
+- **NOT**: `!term1` (e.g., `!fox`)
+
+---
 
 ## Stemming
-The information retrieval system implements the Porter stemming algorithm for word stemming. The algorithm follows the rules specified in the "porter.txt" file, which provides a comprehensive description of the algorithm.
 
-To enable stemming, use the --stemming command-line argument. When specified, the system will perform stemming on both the query and the documents, allowing you to search using stemmed terms.
+Uses the **Porter Stemming Algorithm** to normalize words. Enable it using:
 
-For example:
+```bash
+--stemming
+```
 
-python my_ir_system.py --model "bool" --search-mode "linear" --documents "original" --stemming --query "somesearchterm"
+This applies to both queries and documents.
 
-This command performs a Boolean model search using stemmed terms in the original documents.
+---
 
-## Inverted List for Boolean Retrieval
-The information retrieval system provides an inverted list as an alternative to linear search for Boolean retrieval. The inverted list improves search efficiency by using an index structure.
+## Search Modes
 
-To use the inverted list, set the --search-mode command-line argument to "inverted". This enables the system to utilize the inverted list for Boolean search operations.
+- **Linear Search**:
+  ```bash
+  --search-mode linear
+  ```
 
-You can perform conjunction, disjunction, and negation operations using the following syntax in your query:
+- **Inverted Index Search**:
+  ```bash
+  --search-mode inverted
+  ```
 
-Conjunction: t1&t2 (e.g., fox&wolf)
-Disjunction: t1|t2 (e.g., fox|wolf)
-Negation: -t1 (e.g., !fox)
-For example:
+Inverted index search significantly improves efficiency.
 
-python my_ir_system.py --model "bool" --search-mode "inverted" --documents "original" --query "somesearchterm"
+---
 
-This command performs an inverted list search using the conjunction of terms "fox" and "wolf" in the original documents.
+## Output
 
-The system will measure the time taken for query processing and display it in milliseconds at the end of the results list in the format "T=<value>ms".
+- Displays matched documents.
+- Shows query processing time in milliseconds, e.g., `T=15ms`.
 
-## Searching
-
-Once the collection is prepared, you can perform search queries using the information retrieval system. Here are the available search options:
-
-Boolean Model: Use the --model bool command-line argument to enable the Boolean model.
-
-Original Documents: Use the --documents original command-line argument to search in the original documents.
-
-Documents without Stopwords: Use the --documents no_stopwords command-line argument to search in the documents without stopwords.
-
-Stemming: Use the --stemming command-line argument to enable stemming for both the query and the documents.
-
-Linear Search: Use the --search-mode linear command-line argument to perform a linear search.
-
-Inverted Index Search: Use the --search-mode inverted command-line argument to perform an inverted index search.
